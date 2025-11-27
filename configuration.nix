@@ -1,14 +1,16 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, lib, pkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -40,9 +42,6 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-
-  
-
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
@@ -64,7 +63,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.raph = {
     createHome = false;
-    extraGroups = [ "wheel" "docker" "kvm"  "networkmanager"]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel" "docker" "kvm" "networkmanager"]; # Enable ‘sudo’ for the user.
     hashedPassword = "xxxxxxxxxxx";
     isNormalUser = true;
     shell = pkgs.fish;
@@ -77,9 +76,30 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
   # environment.systemPackages = with pkgs; [
   environment.systemPackages = [
-    pkgs.vim
-    pkgs.wget
+    pkgs.binutils
+    pkgs.clang
+    pkgs.curl
+    pkgs.eza
+    pkgs.ffmpeg
+    pkgs.fzf
+    pkgs.gcc
+    pkgs.ghostty
+    pkgs.gitFull
+    pkgs.gzip
+    pkgs.kitty
+    pkgs.lazydocker
+    pkgs.lazygit
     pkgs.neovim
+    pkgs.ssh-tools
+    pkgs.unzip
+    pkgs.vim
+    pkgs.vlc
+    pkgs.wget
+    pkgs.xz
+    pkgs.zig_0_14
+    pkgs.zip
+    pkgs.zls_0_14
+    pkgs.zstd
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -108,6 +128,4 @@
   system.copySystemConfiguration = true;
 
   system.stateVersion = "25.05"; # Did you read the comment?
-
 }
-
