@@ -19,6 +19,24 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  # LUKS configuration
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.enable = true;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.enableCryptodisk = true;
+   boot.initrd.availableKernelModules = [
+    "aesni_intel"
+    "cryptd"
+  ];
+  boot.initrd.luks.devices = {
+    luksroot = {
+      device = "/dev/disk/by-uuid/cb6fc551-fd3a-4e5d-a6d4-ead8d0e76836";
+     keyFileSize = 4096;
+      keyFile = "/dev/sdb";
+      fallbackToPassword = true;
+    };
+  };
+
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
