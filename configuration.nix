@@ -69,7 +69,9 @@
     uid = 1000;
   };
 
-  # programs.firefox.enable = true;
+  # Virtualisztion
+  virtualisation.podman.dockerSocket.enable = false;
+  virtualisation.docker.enable = true;
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
