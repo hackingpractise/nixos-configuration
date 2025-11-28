@@ -26,6 +26,8 @@
   hardware.graphics.enable = true;
   hardware.intel-gpu-tools.enable = true;
   hardware.graphics.extraPackages = with pkgs; [ intel-media-driver intel-ocl intel-vaapi-driver ];
+
+  hardware.firmwareCompression = "zstd";
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
