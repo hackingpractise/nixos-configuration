@@ -77,13 +77,19 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
   # environment.systemPackages = with pkgs; [
   environment.systemPackages = [
+    pkgs.atuin
+    pkgs.bat
+    pkgs.lm_sensors
     pkgs.binutils
     pkgs.clang
     pkgs.curl
+    pkgs.nushell
     pkgs.eza
-    pkgs.ffmpeg
+    pkgs.ffmpeg-full
     pkgs.fzf
     pkgs.gcc
+    pkgs.ripgrep-all
+    pkgs.starship
     pkgs.ghostty
     pkgs.gitFull
     pkgs.gzip
@@ -91,6 +97,7 @@
     pkgs.lazydocker
     pkgs.lazygit
     pkgs.neovim
+    pkgs.docker-compose
     pkgs.ssh-tools
     pkgs.unzip
     pkgs.vim
@@ -101,6 +108,8 @@
     pkgs.zip
     pkgs.zls_0_14
     pkgs.zstd
+    pkgs.zoxide
+    pkgs.carapace
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
