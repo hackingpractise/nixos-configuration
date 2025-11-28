@@ -12,16 +12,18 @@
     ./hardware-configuration.nix
   ];
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Boot loader config.
+  boot.loader.grub.enable = true;
+  boot.loader.systemd-boot.enable = false;
+  boot.loader.efi.canTouchEfiVariables = false;
+  boot.initrd.services.lvm.enable = true;
+  boot.initrd.systemd.enable = true;
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # LUKS configuration
   boot.loader.grub.device = "nodev";
-  boot.loader.grub.enable = true;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.enableCryptodisk = true;
    boot.initrd.availableKernelModules = [
