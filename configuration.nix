@@ -1,6 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {
   config,
   lib,
@@ -25,6 +22,10 @@
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
 
+  # Graphics
+  hardware.graphics.enable = true;
+  hardware.intel-gpu-tools.enable = true;
+  hardware.graphics.extraPackages = with pkgs; [ intel-media-driver intel-ocl intel-vaapi-driver ];
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
