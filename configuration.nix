@@ -10,36 +10,8 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./boot-config.nix
   ];
-
-  # Boot loader config.
-  boot.loader.grub.enable = true;
-  boot.loader.systemd-boot.enable = false;
-  boot.loader.efi.canTouchEfiVariables = false;
-  boot.initrd.systemd.enable = true;
-
-  # Enable LVM 
-  boot.initrd.services.lvm.enable = true;
-
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  # LUKS configuration
-  boot.loader.grub.device = "nodev";
-  boot.loader.grub.efiSupport = true;
-  boot.loader.grub.enableCryptodisk = true;
-   boot.initrd.availableKernelModules = [
-    "aesni_intel"
-    "cryptd"
-  ];
-  boot.initrd.luks.devices = {
-    luksroot = {
-      device = "/dev/disk/by-uuid/cb6fc551-fd3a-4e5d-a6d4-ead8d0e76836";
-     keyFileSize = 4096;
-      keyFile = "/dev/sdb";
-      fallbackToPassword = true;
-    };
-  };
 
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
