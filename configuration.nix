@@ -1,6 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {
   config,
   lib,
@@ -13,14 +10,18 @@
     ./boot-config.nix
   ];
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.hostName = "nixos-workstation"; # Define your hostname.
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
 
+  # Graphics
+  hardware.graphics.enable = true;
+  hardware.intel-gpu-tools.enable = true;
+  hardware.graphics.extraPackages = with pkgs; [ intel-media-driver intel-ocl intel-vaapi-driver ];
+
+  hardware.firmwareCompression = "zstd";
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -50,6 +51,8 @@
     enable = true;
     pulse.enable = true;
   };
+  # Enabled bluetooth
+  hardware.bluetooth.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -58,25 +61,33 @@
   users.users.raph = {
     createHome = false;
     extraGroups = ["wheel" "docker" "kvm" "networkmanager"]; # Enable ‘sudo’ for the user.
-    hashedPassword = "xxxxxxxxxxx";
+    hashedPasswordFile = "./keyfile";
     isNormalUser = true;
     shell = pkgs.fish;
     uid = 1000;
   };
 
-  # programs.firefox.enable = true;
+  # Virtualisztion
+  virtualisation.podman.dockerSocket.enable = false;
+  virtualisation.docker.enable = true;
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   # environment.systemPackages = with pkgs; [
   environment.systemPackages = [
+    pkgs.atuin
+    pkgs.bat
+    pkgs.lm_sensors
     pkgs.binutils
     pkgs.clang
     pkgs.curl
+    pkgs.nushell
     pkgs.eza
-    pkgs.ffmpeg
+    pkgs.ffmpeg-full
     pkgs.fzf
     pkgs.gcc
+    pkgs.ripgrep-all
+    pkgs.starship
     pkgs.ghostty
     pkgs.gitFull
     pkgs.gzip
@@ -84,6 +95,7 @@
     pkgs.lazydocker
     pkgs.lazygit
     pkgs.neovim
+    pkgs.docker-compose
     pkgs.ssh-tools
     pkgs.unzip
     pkgs.vim
@@ -94,6 +106,8 @@
     pkgs.zip
     pkgs.zls_0_14
     pkgs.zstd
+    pkgs.zoxide
+    pkgs.carapace
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
