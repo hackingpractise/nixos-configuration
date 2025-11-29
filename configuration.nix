@@ -16,8 +16,10 @@
   boot.loader.grub.enable = true;
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = false;
-  boot.initrd.services.lvm.enable = true;
   boot.initrd.systemd.enable = true;
+
+  # Enable LVM 
+  boot.initrd.services.lvm.enable = true;
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
