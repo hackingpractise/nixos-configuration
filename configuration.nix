@@ -54,6 +54,15 @@
   # Enabled bluetooth
   hardware.bluetooth.enable = true;
 
+  # Enabled display manager and KDE plasma
+  services = {
+  desktopManager.plasma6.enable = true;
+
+  displayManager.sddm.enable = true;
+  displayManager.sddm.wayland.enable = true;
+  displayManager.sddm.settings.General.DisplayServer = "wayland";
+};
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
