@@ -8,10 +8,20 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./boot-config.nix
+    ./gnome-config.nix
+    ./hyprland-config.nix
   ];
 
-  networking.hostName = "nixos-workstation"; # Define your hostname.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  # Automatic cleaning
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
+  # Networking
+  networking.hostName = "wonderland"; # Define your hostname.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
@@ -19,34 +29,19 @@
   # Graphics
   hardware.graphics.enable = true;
   hardware.intel-gpu-tools.enable = true;
-  hardware.graphics.extraPackages = with pkgs; [ intel-media-driver intel-ocl intel-vaapi-driver ];
+  hardware.graphics.extraPackages = with pkgs; [intel-media-driver intel-ocl intel-vaapi-driver];
+  hardware.cpu.intel.updateMicrocode = true;
+  hardware.graphics.package = pkgs.mesa;
 
   hardware.firmwareCompression = "zstd";
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
+  # Fonts
+  fonts.packages = builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Enable sound.
-  services.pulseaudio.enable = true;
-
+  # Sound
   services.pipewire = {
     enable = true;
     pulse.enable = true;
@@ -54,73 +49,60 @@
   # Enabled bluetooth
   hardware.bluetooth.enable = true;
 
-  # Enabled display manager and KDE plasma
-  services = {
-  desktopManager.plasma6.enable = true;
-
-  displayManager.sddm.enable = true;
-  displayManager.sddm.wayland.enable = true;
-  displayManager.sddm.settings.General.DisplayServer = "wayland";
-};
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.raph = {
     createHome = false;
     extraGroups = ["wheel" "docker" "kvm" "networkmanager"]; # Enable ‘sudo’ for the user.
-    hashedPasswordFile = "./keyfile";
+    hashedPasswordFile = "./hashed-password";
     isNormalUser = true;
     shell = pkgs.fish;
     uid = 1000;
   };
 
+  programs.fish.enable = true;
+
+  nixpkgs.config.allowUnfree = true;
+
   # Virtualisztion
   virtualisation.podman.dockerSocket.enable = false;
   virtualisation.docker.enable = true;
 
-  # List packages installed in system profile.
-  # You can use https://search.nixos.org/ to find more packages (and options).
-  # environment.systemPackages = with pkgs; [
   environment.systemPackages = [
     pkgs.atuin
     pkgs.bat
-    pkgs.lm_sensors
     pkgs.binutils
+    pkgs.carapace
     pkgs.clang
     pkgs.curl
-    pkgs.nushell
+    pkgs.docker-compose
     pkgs.eza
-    pkgs.ffmpeg-full
+    pkgs.ffmpeg
     pkgs.fzf
     pkgs.gcc
-    pkgs.ripgrep-all
-    pkgs.starship
     pkgs.ghostty
     pkgs.gitFull
     pkgs.gzip
     pkgs.kitty
     pkgs.lazydocker
     pkgs.lazygit
+    pkgs.lm_sensors
     pkgs.neovim
-    pkgs.docker-compose
+    pkgs.nushell
+    pkgs.ripgrep
     pkgs.ssh-tools
+    pkgs.starship
     pkgs.unzip
     pkgs.vim
     pkgs.vlc
     pkgs.wget
     pkgs.xz
-    pkgs.zig_0_14
+    pkgs.zig
     pkgs.zip
-    pkgs.zls_0_14
-    pkgs.zstd
+    pkgs.zls
     pkgs.zoxide
-    pkgs.carapace
+    pkgs.zstd
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
   programs.mtr.enable = true;
 
   programs.gnupg.agent = {
@@ -128,21 +110,7 @@
     enableSSHSupport = true;
   };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
   networking.firewall.enable = false;
 
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  system.copySystemConfiguration = true;
-
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "25.11";
 }
