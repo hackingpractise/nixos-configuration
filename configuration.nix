@@ -64,8 +64,10 @@
   nixpkgs.config.allowUnfree = true;
 
   # Virtualisztion
-  virtualisation.podman.dockerSocket.enable = false;
-  virtualisation.docker.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    dockerSocket.enable = true;
+  };
 
   environment.systemPackages = [
     pkgs.atuin
@@ -88,6 +90,7 @@
     pkgs.lm_sensors
     pkgs.neovim
     pkgs.nushell
+    pkgs.podman-compose
     pkgs.ripgrep
     pkgs.ssh-tools
     pkgs.starship
