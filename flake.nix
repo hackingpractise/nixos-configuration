@@ -1,7 +1,7 @@
 {
   description = "My nixos configuration.";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-25.05";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     stylix.url = "github:danth/stylix";
   };
