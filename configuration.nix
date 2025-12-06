@@ -91,6 +91,7 @@
     pkgs.ripgrep
     pkgs.ssh-tools
     pkgs.starship
+    pkgs.tldr
     pkgs.unzip
     pkgs.vim
     pkgs.vlc
