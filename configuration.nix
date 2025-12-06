@@ -57,7 +57,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.raph = {
     createHome = false;
-    extraGroups = ["wheel" "docker" "kvm" "networkmanager"]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel" "docker" "podman" "kvm" "networkmanager"]; # Enable ‘sudo’ for the user.
     hashedPasswordFile = "./hashed-password";
     isNormalUser = true;
     shell = pkgs.fish;
