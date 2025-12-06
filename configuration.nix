@@ -104,6 +104,7 @@
     pkgs.vim
     pkgs.vlc
     pkgs.wget
+    pkgs.wl-clipboard
     pkgs.xz
     pkgs.zig
     pkgs.zip
