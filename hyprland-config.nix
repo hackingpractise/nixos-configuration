@@ -16,5 +16,6 @@
     pkgs.hyprsunset
     pkgs.rofi
     pkgs.waybar
+    pkgs.brightnessctl
   ];
 }
