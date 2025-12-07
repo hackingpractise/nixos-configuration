@@ -86,7 +86,6 @@
     pkgs.ffmpeg
     pkgs.fzf
     pkgs.gcc
-    pkgs.ghostty
     pkgs.gitFull
     pkgs.gzip
     pkgs.kitty
