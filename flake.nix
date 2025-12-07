@@ -1,8 +1,8 @@
 {
   description = "My nixos configuration.";
   inputs = {
-    # nixpkgsOld.url = "github:NixOS/nixpkgs?ref=nixos-25.05";
-    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+    nixpkgsOld.url = "github:NixOS/nixpkgs?ref=nixos-25.05";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     stylix.url = "github:danth/stylix";
   };
@@ -11,12 +11,20 @@
     nixpkgs,
     determinate,
     stylix,
-    # nixpkgsOld,
+    nixpkgsOld,
     ...
-  }: {
+  }: let
+    system = "x86_64-linux";
+    pkgsOld = import nixpkgsOld {inherit system;};
+  in {
     nixosConfigurations.wonderland = nixpkgs.lib.nixosSystem {
       # inherit nixpkgsOld;
       modules = [
+        {
+          hardware.graphics.extraPackages = with pkgsOld; [intel-media-driver intel-vaapi-driver];
+          hardware.graphics.package = pkgsOld.mesa;
+          environment.systemPackages = [pkgsOld.ghostty];
+        }
         ./configuration.nix
         determinate.nixosModules.default
         stylix.nixosModules.stylix

@@ -3,16 +3,7 @@
   lib,
   pkgs,
   ...
-}: let
-  nixpkgsOld =
-    import (fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/nixos-25.05.tar.gz";
-      sha256 = "0yg5rmh06mr703jlzbkcmifk7jcgs6g7m1q2nmnl1x6nnrhscdzj";
-    }) {
-      system = "x86_64-linux";
-    };
-  # pkgsOld = nixpkgsOld.legacyPackages.${system};
-in {
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -43,9 +34,9 @@ in {
   # Graphics
   hardware.graphics.enable = true;
   hardware.intel-gpu-tools.enable = true;
-  hardware.graphics.extraPackages = with nixpkgsOld; [intel-media-driver intel-vaapi-driver];
   hardware.cpu.intel.updateMicrocode = true;
-  hardware.graphics.package = nixpkgsOld.mesa;
+  # hardware.graphics.extraPackages = with pkgs; [intel-media-driver intel-ocl intel-vaapi-driver];
+  # hardware.graphics.package = pkgs.mesa;
 
   hardware.firmwareCompression = "zstd";
 
@@ -95,7 +86,6 @@ in {
     pkgs.ffmpeg
     pkgs.fzf
     pkgs.gcc
-    nixpkgsOld.ghostty
     pkgs.gitFull
     pkgs.gzip
     pkgs.kitty
