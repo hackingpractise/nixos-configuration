@@ -15,7 +15,7 @@
   # Stylix
   stylix.enable = true;
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-  stylix.image = ./assets/wallpaper;
+  stylix.image = ./assets/wallpaper.png;
 
   # Automatic cleaning
   nix.gc = {
@@ -74,6 +74,12 @@
     dockerSocket.enable = true;
   };
 
+  # Libraries
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    openssl
+  ];
+
   environment.systemPackages = [
     pkgs.atuin
     pkgs.bat
@@ -94,7 +100,10 @@
     pkgs.lm_sensors
     pkgs.neovim
     pkgs.nushell
+    pkgs.openssl
+    pkgs.pkg-config
     pkgs.podman-compose
+    pkgs.procs
     pkgs.ripgrep
     pkgs.ssh-tools
     pkgs.starship

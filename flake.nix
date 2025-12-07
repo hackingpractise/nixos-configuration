@@ -7,7 +7,6 @@
     stylix.url = "github:danth/stylix";
   };
   outputs = inputs @ {
-    self,
     nixpkgs,
     determinate,
     stylix,
@@ -18,7 +17,6 @@
     pkgsOld = import nixpkgsOld {inherit system;};
   in {
     nixosConfigurations.wonderland = nixpkgs.lib.nixosSystem {
-      # inherit nixpkgsOld;
       modules = [
         {
           hardware.graphics.extraPackages = with pkgsOld; [intel-media-driver intel-vaapi-driver];
