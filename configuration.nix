@@ -13,9 +13,30 @@
   ];
 
   # Stylix
-  stylix.enable = true;
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-  stylix.image = ./assets/wallpaper.png;
+  stylix = {
+    enable = true;
+    autoEnable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+    image = ./assets/wallpaper.png;
+    polarity = "dark";
+    cursor = {
+      name = "Bibata-Mordern-Amber";
+      package = pkgs.bibata-cursors;
+      size = 20;
+    };
+    targets = {
+      gnome = {
+        enable = true;
+        # useWallpaper = true;
+      };
+      gtk.enable = true;
+      # lazygit.enable = true;
+      # neovim.enable = false;
+      # nushell.enable = true;
+      # waybar.enable = true;
+      # yazi.enable = true;
+    };
+  };
 
   # Automatic cleaning
   nix.gc = {
