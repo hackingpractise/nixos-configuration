@@ -27,14 +27,8 @@
     targets = {
       gnome = {
         enable = true;
-        # useWallpaper = true;
       };
       gtk.enable = true;
-      # lazygit.enable = true;
-      # neovim.enable = false;
-      # nushell.enable = true;
-      # waybar.enable = true;
-      # yazi.enable = true;
     };
   };
 
@@ -46,8 +40,11 @@
   };
 
   # Networking
-  networking.hostName = "wonderland"; # Define your hostname.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking = {
+    hostName = "wonderland"; # Define your hostname.
+    networkmanager.enable = true; # Easiest to use and most distros use this by default.
+    firewall.enable = false;
+  };
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
@@ -85,21 +82,39 @@
     uid = 1000;
   };
 
+  programs.mtr.enable = true;
+
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
   programs.fish.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
+  # Libraries
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      gtk3
+      openssl
+      sqlite
+      pkg-config
+      stdenv.cc.cc # Standard C++ libraries
+      zeromq
+      zlib
+    ];
+  };
+
+  services.envfs.enable = true;
 
   # Virtualisztion
   virtualisation.podman = {
     enable = true;
-    dockerSocket.enable = true;
+    dockerSocket.enable = false;
   };
-
-  # Libraries
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    openssl
-  ];
+  virtualisation.docker = {
+    enable = true;
+  };
+  nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = [
     pkgs.atuin
@@ -121,11 +136,11 @@
     pkgs.lm_sensors
     pkgs.neovim
     pkgs.nushell
-    pkgs.openssl
     pkgs.pkg-config
     pkgs.podman-compose
     pkgs.procs
     pkgs.ripgrep
+    pkgs.sqlite
     pkgs.ssh-tools
     pkgs.starship
     pkgs.tldr
@@ -141,15 +156,6 @@
     pkgs.zoxide
     pkgs.zstd
   ];
-
-  programs.mtr.enable = true;
-
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
-  networking.firewall.enable = false;
 
   system.stateVersion = "25.11";
 }
